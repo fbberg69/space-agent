@@ -1,0 +1,13 @@
+@echo off
+cd /d D:\Space-Agent
+echo [1/4] Parando container...
+docker-compose down
+echo [2/4] Iniciando container...
+docker-compose up -d
+echo [3/4] Aguardando 15 segundos para inicializacao...
+timeout /t 15 /nobreak > NUL
+echo [4/4] Testando healthcheck...
+curl -s http://localhost:3010/health -o NUL -w "HTTP Status: %%{http_code}%%n"
+echo.
+echo Pronto. Verifique o log se necessario: docker-compose logs -f
+pause
